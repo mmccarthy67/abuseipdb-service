@@ -1,0 +1,52 @@
+server:
+  port: 10008
+  servlet:
+    context-path: /abuseipdb-service/v1
+
+info:
+  app:
+    name: abuseipdb-Service
+    description: ASH Technology Solutions AbuseIPDB Service
+    version: 1.0.0
+
+spring:
+  application:
+    name: abuseipdb-Service
+  config:
+    activate:
+      on-profile: ionos4
+
+jasypt:
+  encryptor:
+    algorithm: PBEWithMD5AndDES
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator
+
+logging:
+  pattern:
+    console: "[%d] [%t] %-5level %logger : %msg%n"
+  level:
+    root: info
+    com.tech.ash.abuseipdb: info
+
+---
+server:
+  port: 10008
+  servlet:
+    context-path: /abuseipdb-service/v1
+
+spring:
+  config:
+    activate:
+      on-profile: default
+
+jasypt:
+  encryptor:
+    algorithm: PBEWithMD5AndDES
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator
+
+logging:
+  pattern:
+    console: "[%d] [%t] %-5level %logger : %msg%n"
+  level:
+    root: info
+    com.tech.ash.abuseipdb: debug
