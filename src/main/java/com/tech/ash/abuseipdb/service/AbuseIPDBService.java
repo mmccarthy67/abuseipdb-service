@@ -18,7 +18,6 @@ public class AbuseIPDBService {
     private static final String IP = "ip";
     private static final String CATEGORIES = "categories";
     private static final String COMMENTS = "comments";
-    private static final String CONTENT_TYPE = "Content-Type";
     private static final String KEY = "Key";
     private static final String ACCEPT = "Accept";
     private static final String APPLICATION_JSON = "application/json";
