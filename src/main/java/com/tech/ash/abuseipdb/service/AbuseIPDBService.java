@@ -1,15 +1,12 @@
 package com.tech.ash.abuseipdb.service;
 
 import com.tech.ash.abuseipdb.config.AbuseIPDBConfig;
+import com.tech.ash.abuseipdb.model.ReportIPRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -18,6 +15,15 @@ import java.net.URISyntaxException;
 public class AbuseIPDBService {
     public static final Logger LOGGER = LogManager.getLogger(AbuseIPDBService.class);
     private final SpringRestTemplateService springRestTemplateService;
+    private static final String IP = "ip";
+    private static final String CATEGORIES = "categories";
+    private static final String COMMENTS = "comments";
+    private static final String CONTENT_TYPE = "Content-Type";
+    private static final String KEY = "Key";
+    private static final String ACCEPT = "Accept";
+    private static final String APPLICATION_JSON = "application/json";
+    private static final String EQUALS = "=";
+    private static final String AMPERSAND = "&";
     private final AbuseIPDBConfig abuseIPDBConfig;
 
     public AbuseIPDBService(@Autowired SpringRestTemplateService springRestTemplateService,
@@ -37,16 +43,46 @@ public class AbuseIPDBService {
                     +"&ipAddress="
                     +ipAddress);
 
-            MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-            headers.add("Key", abuseIPDBConfig.getAbuseIpDbKey());
-            headers.add("Accept", "application/json");
-
-            RequestEntity requestEntity = new RequestEntity<>(headers, HttpMethod.GET, uri);
-
+            RequestEntity requestEntity = new RequestEntity<>(getHttpHeaders(), HttpMethod.GET, uri);
             return springRestTemplateService.checkIPAddress(requestEntity);
         } catch (URISyntaxException e) {
             LOGGER.error("URISyntaxException checking IP Address {}.", ipAddress);
             return ResponseEntity.internalServerError().build();
         }
+    }
+
+    public ResponseEntity reportIPAddress(ReportIPRequest reportIPRequest) {
+        LOGGER.info("Reporting IP Address {}.", reportIPRequest);
+        URI uri = null;
+
+        try {
+            uri = new URI(abuseIPDBConfig.getReportIpAddressUrl());
+
+            StringBuilder body = new StringBuilder();
+            body.append(IP).append(EQUALS).append(reportIPRequest.getIp()).append(AMPERSAND)
+                    .append(CATEGORIES).append(EQUALS).append(reportIPRequest.getCategories())
+                    .append(AMPERSAND).append(COMMENTS).append(EQUALS).append(reportIPRequest.getComments());
+
+            RequestEntity requestEntity = new RequestEntity<>(body.toString(), postHttpHeaders(), HttpMethod.POST, uri);
+            return springRestTemplateService.reportIPAddress(requestEntity);
+        } catch (URISyntaxException e) {
+            LOGGER.error("URISyntaxException reporting IP Address {}.", reportIPRequest.getIp());
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    private HttpHeaders getHttpHeaders() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(KEY, abuseIPDBConfig.getAbuseIpDbKey());
+        httpHeaders.add(ACCEPT, APPLICATION_JSON);
+        return httpHeaders;
+    }
+
+    private HttpHeaders postHttpHeaders() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        httpHeaders.add(KEY, abuseIPDBConfig.getAbuseIpDbKey());
+        httpHeaders.add(ACCEPT, APPLICATION_JSON);
+        return httpHeaders;
     }
 }

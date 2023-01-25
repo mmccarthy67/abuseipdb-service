@@ -23,6 +23,11 @@ public class SpringRestTemplateService {
         return getRestTemplate().exchange(requestEntity, new ParameterizedTypeReference<String>() {});
     }
 
+    @Retryable(value = {RestClientException.class}, maxAttempts = MAX_ATTEMPTS, backoff = @Backoff(delay = DELAY))
+    public ResponseEntity reportIPAddress(RequestEntity requestEntity) {
+        return getRestTemplate().exchange(requestEntity, new ParameterizedTypeReference<String>() {});
+    }
+
     @Recover
     public String recover(RestClientException e) {
         LOGGER.error("Recovering from Rest Client Exception.", e);
