@@ -27,7 +27,7 @@ abuse:
       key: ENC(iI6bG3uf1kG0HScUmpK+dmAZz5crig8j7aVZQh6eIHszKw/clk4nDn2EnMv/V+A+Sco7X81sJz44pD8KRVOOeUsYITJu5nl+LIC+4aWmuOAlMth1ntPjVWkE+dTiHPbZ)
       check.ip.url: https://api.abuseipdb.com/api/v2/check
       report.ip.url: https://api.abuseipdb.com/api/v2/report
-      bulk.ip.url: https://api.abuseipdb.com/api/v2/bulk-report
+      report.bulk.ip.url: https://api.abuseipdb.com/api/v2/bulk-report
       max.age.in.days: 90
 
 logging:
