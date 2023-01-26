@@ -26,15 +26,8 @@ public class AbuseIPDBController {
     }
 
     @PostMapping("/reportip")
-    public ResponseEntity<String> reportIPAddress(@RequestParam String ip,
-                                                  @RequestParam String categories,
-                                                  @RequestParam String comments) {
-        LOGGER.info("Reporting IP Address {}.", ip);
-        ReportIPRequest reportIPRequest = new ReportIPRequest();
-        reportIPRequest.setIp(ip);
-        reportIPRequest.setCategories(categories);
-        reportIPRequest.setComments(comments);
-
+    public ResponseEntity<String> reportIPAddress(@RequestBody ReportIPRequest reportIPRequest) {
+        LOGGER.info("Reporting IP Address {}.", reportIPRequest.getIp());
         return abuseIPDBService.reportIPAddress(reportIPRequest);
     }
 }
