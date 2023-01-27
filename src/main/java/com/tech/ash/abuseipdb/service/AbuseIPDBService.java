@@ -43,6 +43,7 @@ public class AbuseIPDBService {
                     +ipAddress);
 
             RequestEntity requestEntity = new RequestEntity<>(getHttpHeaders(), HttpMethod.GET, uri);
+            LOGGER.info(requestEntity);
             return springRestTemplateService.checkIPAddress(requestEntity);
         } catch (URISyntaxException e) {
             LOGGER.error("URISyntaxException checking IP Address {}.", ipAddress);
@@ -63,6 +64,7 @@ public class AbuseIPDBService {
                     .append(AMPERSAND).append(COMMENTS).append(EQUALS).append(reportIPRequest.getComments());
 
             RequestEntity requestEntity = new RequestEntity<>(body.toString(), postHttpHeaders(), HttpMethod.POST, uri);
+            LOGGER.info(requestEntity);
             return springRestTemplateService.reportIPAddress(requestEntity);
         } catch (URISyntaxException e) {
             LOGGER.error("URISyntaxException reporting IP Address {}.", reportIPRequest.getIp());
