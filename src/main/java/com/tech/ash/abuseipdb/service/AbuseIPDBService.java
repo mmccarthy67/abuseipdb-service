@@ -71,6 +71,9 @@ public class AbuseIPDBService {
         } catch (URISyntaxException e) {
             LOGGER.error("URISyntaxException reporting IP Address {}.", reportIPRequest.getIp());
             return ResponseEntity.internalServerError().build();
+        } catch (Exception e) {
+            LOGGER.error("Exception reporting IP Address {}.", reportIPRequest.getIp()), e;
+            return ResponseEntity.internalServerError().build();
         }
     }
 

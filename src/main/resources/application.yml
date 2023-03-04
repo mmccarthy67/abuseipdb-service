@@ -32,7 +32,7 @@ abuse:
 
 logging:
   pattern:
-    console: "[%d] [%t] %-5level %logger : %msg%n"
+    console: "[%d] [%t %c.%M\(\):%L] %-5level %logger : %msg%n"
   level:
     root: info
     com.tech.ash.abuseipdb: info
@@ -64,7 +64,7 @@ abuse:
 
 logging:
   pattern:
-    console: "[%d] [%t] %-5level %logger : %msg%n"
+    console: "[%d] [%t %c.%M\(\):%L] %-5level %logger : %msg%n"
   level:
     root: info
     com.tech.ash.abuseipdb: debug
