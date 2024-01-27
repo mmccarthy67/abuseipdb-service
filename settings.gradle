@@ -1,1 +1,10 @@
+import org.gradle.api.initialization.resolve.RepositoriesMode
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositories {
+        mavenCentral()
+    }
+}
+
 rootProject.name = 'abuseipdb-service'
