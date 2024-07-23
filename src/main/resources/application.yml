@@ -68,4 +68,3 @@ logging:
   level:
     root: info
     com.tech.ash.abuseipdb: debug
-
